@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Lessons</title>
+</head>
+<body>
+<center>
+<h1>Schools</h1>
+
+<form action="/search_school" method="POST">
+    <table><td>
+    <input type="text" name="form_schoolsearch" id="schoolsearch" placeholder="Search Schools">
+    </td><td>
+    <input type="submit" name="form_button" value="Submit">
+    </td>
+    </table>
+    <INPUT TYPE="HIDDEN" MAXLENGTH=10 NAME="form_low" VALUE="0">
+</form>
+
+<br><a href="/schools/create">Create School</a><BR>
+
+</center>
+</body>
+</html>

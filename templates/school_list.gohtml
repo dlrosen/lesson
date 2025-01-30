@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Lessons</title>
+</head>
+<body>
+<center>
+<h1>Schools</h1>
+
+<form action="/search_school" method="POST">
+    <table><td>
+    <input type="text" name="form_schoolsearch" id="schoolsearch" placeholder="Search Schools">
+    </td><td>
+    <input type="submit" name="form_button" value="Submit">
+    </td>
+    </table>
+    <br>
+    <INPUT TYPE="HIDDEN" MAXLENGTH=10 NAME="form_low" VALUE="{{.Low}}">
+    <INPUT TYPE="HIDDEN" NAME="form_prev_next_searchfor" VALUE="{{.SearchFor}}">
+    {{if .PrevDisplay}}
+        <input type="submit" name="form_button" value="Prev">
+    {{end}}
+    {{if .NextDisplay}}
+        <input type="submit" name="form_button" value="Next">
+    {{end}}
+</form>
+
+<br>{{.YourMessage}}<br><br>
+
+{{if .SchoolList}}
+    <TABLE BORDER=1 FRAME=BOX RULES=ALL>
+        <tr>
+            <th>ID</th>
+            <th>School Name</th>
+        </tr>
+
+        {{range .SchoolList}}
+            <tr>
+                <td><a href="/schools/modify/{{.ID}}">{{.ID}}</a></td>
+                <td>{{.School_Name}}</td>
+            </tr>
+        {{end}}
+
+    </table>
+{{else}}
+    <p>no rows returned</p>
+{{end}}
+
+<br><a href="/schools/create">Create School</a><BR>
+
+</center>
+</body>
+</html>

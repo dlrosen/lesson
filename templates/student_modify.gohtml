@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Lessons</title>
+</head>
+<body>
+<center>
+<h1>Students</h1>
+ID {{.ID}}<br><br>
+<form action="/modify_student" method="POST">
+    <TABLE BORDER=1 FRAME=BOX RULES=ALL>
+    <tr><td><label for="firstname">First Name</label></td>
+        <td><input type="text" name="form_firstname" id="firstname" placeholder="First Name" value="{{.First_Name}}"></td>
+    </tr>
+    <tr><td><label for="lastname">Last Name</label></td>
+        <td><input type="text" name="form_lastname" id="lastname" placeholder="Last Name" value="{{.Last_Name}}"></td>
+    </tr>
+    <tr><td><label for="email">Email</label></td>
+        <td><input type="text" name="form_email" id="email" placeholder="Email" value="{{.Email}}"></td>
+    </tr>
+    </table>
+    <INPUT TYPE="HIDDEN" MAXLENGTH=10 NAME="form_id" VALUE="{{.ID}}">
+    <br>
+    <input type="submit" name="form_button" value="Update"><input type="submit" name="form_button" value="Delete">
+</form>
+<br><a href="/students/search">Search Students</a><br>
+
+</center>
+</body>
+</html>
