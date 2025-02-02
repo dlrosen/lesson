@@ -15,6 +15,17 @@ ID {{.ID}}<br><br>
     <tr><td><label for="schoolname">School Name</label></td>
         <td><input type="text" name="form_schoolname" id="schoolname" placeholder="School Name" value="{{.School_Name}}"></td>
     </tr>
+    <tr><td><label for="schoolactive">Active</label></td>
+        <td><select size=1 name="form_schoolactive">
+            {{if .Active}}
+                <option selected>TRUE
+                <option>FALSE
+            {{else}}
+                <option>TRUE
+                <option selected>FALSE
+            {{end}}
+            </select></td>
+    </tr>
     </table>
     <INPUT TYPE="HIDDEN" MAXLENGTH=10 NAME="form_id" VALUE="{{.ID}}">
     <br>
@@ -24,4 +35,5 @@ ID {{.ID}}<br><br>
 
 </center>
 </body>
+{{ template "footer" }}
 </html>

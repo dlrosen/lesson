@@ -8,11 +8,11 @@
 </head>
 <body>
 <center>
-<h1>Schools</h1>
+<h1>Time Periods</h1>
 
-<form action="/search_school" method="POST">
+<form action="/search_timeperiod" method="POST">
     <table><td>
-    <input type="text" name="form_schoolsearch" id="schoolsearch" placeholder="Search Schools">
+    <input type="text" name="form_timeperiodsearch" id="timeperiodsearch" placeholder="Search Time Periods">
     </td><td>
     <input type="submit" name="form_button" value="Submit">
     </td>
@@ -30,19 +30,21 @@
 
 <br>{{.YourMessage}}<br><br>
 
-{{if .SchoolList}}
+{{if .TimePeriodList}}
     <TABLE BORDER=1 FRAME=BOX RULES=ALL>
         <tr>
             <th>ID</th>
-            <th>School Name</th>
-            <th>Active</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
         </tr>
 
-        {{range .SchoolList}}
+        {{range .TimePeriodList}}
             <tr>
-                <td><a href="/schools/modify/{{.ID}}">{{.ID}}</a></td>
-                <td>{{.School_Name}}</td>
-                <td>{{.Active}}</td>
+                <td><a href="/timeperiods/modify/{{.ID}}">{{.ID}}</a></td>
+                <td>{{.Description}}</td>
+                <td>{{.StartDate}}</td>
+                <td>{{.EndDate}}</td>
             </tr>
         {{end}}
 
@@ -51,7 +53,7 @@
     <p>no rows returned</p>
 {{end}}
 
-<br><a href="/schools/create">Create School</a><BR>
+<br><a href="/timeperiods/create">Create Time Period</a><BR>
 
 </center>
 </body>

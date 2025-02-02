@@ -21,6 +21,24 @@
     <tr><td><label for="email">Email</label></td>
         <td><input type="text" name="form_email" id="email" placeholder="Email"></td>
     </tr>
+    <tr><td><label for="school">School</label></td>
+        <td><select size=1 name="form_schools">
+            {{range .SchoolList}}
+                {{if .Select}}
+                    <option selected>
+                {{else}}
+                    <option>
+                {{end}}
+                {{.Option}}
+            {{end}}
+            </select></td>
+    </tr>
+    <tr><td><label for="studentactive">Active</label></td>
+        <td><select size=1 name="form_studentactive">
+            <option selected>TRUE
+            <option>FALSE
+            </select></td>
+    </tr>
     </table>
     <br>
     <input type="submit">
@@ -29,4 +47,5 @@
 
 </center>
 </body>
+{{ template "footer" }}
 </html>

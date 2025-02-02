@@ -35,15 +35,13 @@ func main() {
 
 	mux.HandleFunc("/", handleRoot)
 
-	mux.HandleFunc("GET /timeperiods", timePeriodTemplate)
-
-	//students
-	mux.HandleFunc("GET /students/create", studentCreateTemplate)
-	mux.HandleFunc("GET /students/search", studentSearchTemplate)
-	mux.HandleFunc("GET /students/modify/{id}", func(w http.ResponseWriter, r *http.Request) { studentModifyTemplate(w, r, db) })
-	mux.HandleFunc("POST /create_student", func(w http.ResponseWriter, r *http.Request) { createStudent(w, r, db) })
-	mux.HandleFunc("POST /search_student", func(w http.ResponseWriter, r *http.Request) { searchStudent(w, r, db) })
-	mux.HandleFunc("POST /modify_student", func(w http.ResponseWriter, r *http.Request) { modifyStudent(w, r, db) })
+	//timeperiods
+	mux.HandleFunc("GET /timeperiods/create", timePeriodCreateTemplate)
+	mux.HandleFunc("GET /timeperiods/search", timePeriodSearchTemplate)
+	mux.HandleFunc("GET /timeperiods/modify/{id}", func(w http.ResponseWriter, r *http.Request) { timePeriodModifyTemplate(w, r, db) })
+	mux.HandleFunc("POST /create_timeperiod", func(w http.ResponseWriter, r *http.Request) { createTimePeriod(w, r, db) })
+	mux.HandleFunc("POST /search_timeperiod", func(w http.ResponseWriter, r *http.Request) { searchTimePeriod(w, r, db) })
+	mux.HandleFunc("POST /modify_timeperiod", func(w http.ResponseWriter, r *http.Request) { modifyTimePeriod(w, r, db) })
 
 	//schools
 	mux.HandleFunc("GET /schools/create", schoolCreateTemplate)
@@ -52,6 +50,14 @@ func main() {
 	mux.HandleFunc("POST /create_school", func(w http.ResponseWriter, r *http.Request) { createSchool(w, r, db) })
 	mux.HandleFunc("POST /search_school", func(w http.ResponseWriter, r *http.Request) { searchSchool(w, r, db) })
 	mux.HandleFunc("POST /modify_school", func(w http.ResponseWriter, r *http.Request) { modifySchool(w, r, db) })
+
+	//students
+	mux.HandleFunc("GET /students/create", func(w http.ResponseWriter, r *http.Request) { studentCreateTemplate(w, r, db) })
+	mux.HandleFunc("GET /students/search", studentSearchTemplate)
+	mux.HandleFunc("GET /students/modify/{id}", func(w http.ResponseWriter, r *http.Request) { studentModifyTemplate(w, r, db) })
+	mux.HandleFunc("POST /create_student", func(w http.ResponseWriter, r *http.Request) { createStudent(w, r, db) })
+	mux.HandleFunc("POST /search_student", func(w http.ResponseWriter, r *http.Request) { searchStudent(w, r, db) })
+	mux.HandleFunc("POST /modify_student", func(w http.ResponseWriter, r *http.Request) { modifyStudent(w, r, db) })
 
 	fmt.Printf("Server listening to :8080 \n")
 	http.ListenAndServe(":8080", mux)
@@ -62,13 +68,6 @@ func handleRoot(
 	r *http.Request,
 ) {
 	tpl.ExecuteTemplate(w, "index.gohtml", nil)
-}
-
-func timePeriodTemplate(
-	w http.ResponseWriter,
-	r *http.Request,
-) {
-	tpl.ExecuteTemplate(w, "timeperiods.gohtml", nil)
 }
 
 func checkErr(err error) {

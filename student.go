@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -13,8 +14,17 @@ import (
 func studentCreateTemplate(
 	w http.ResponseWriter,
 	r *http.Request,
+	db *sql.DB,
 ) {
-	tpl.ExecuteTemplate(w, "student_create.gohtml", nil)
+	zListBox := getSchoolListBox(db, 0)
+
+	d := struct {
+		SchoolList []SchoolListBox
+	}{
+		SchoolList: zListBox,
+	}
+
+	tpl.ExecuteTemplate(w, "student_create.gohtml", d)
 }
 
 func studentSearchTemplate(
@@ -41,6 +51,8 @@ func studentModifyTemplate(
 	pLastName := ""
 	pEmail := ""
 	pID := 0
+	pSchoolID := 0
+	pActive := false
 
 	id, err := strconv.Atoi(r.PathValue("id"))
 	studentCheckErr(err)
@@ -52,8 +64,12 @@ func studentModifyTemplate(
 			pLastName = myStudent.Last_Name
 			pEmail = myStudent.Email
 			pID = myStudent.ID
+			pSchoolID = myStudent.School_ID
+			pActive = myStudent.Active
 		}
 	}
+
+	zListBox := getSchoolListBox(db, pSchoolID)
 
 	d := struct {
 		YourMessage string
@@ -61,12 +77,18 @@ func studentModifyTemplate(
 		First_Name  string
 		Last_Name   string
 		Email       string
+		School_ID   int
+		Active      bool
+		SchoolList  []SchoolListBox
 	}{
 		YourMessage: yMessage,
 		ID:          pID,
 		First_Name:  pFirstName,
 		Last_Name:   pLastName,
 		Email:       pEmail,
+		School_ID:   pSchoolID,
+		Active:      pActive,
+		SchoolList:  zListBox,
 	}
 
 	tpl.ExecuteTemplate(w, "student_modify.gohtml", d)
@@ -77,16 +99,36 @@ func createStudent(
 	r *http.Request,
 	db *sql.DB,
 ) {
+	pActive := false
+	if r.FormValue("form_studentactive") == "TRUE" {
+		pActive = true
+	}
+
+	schoolList := strings.Split(r.FormValue("form_schools"), "-")
+	pSchoolName := schoolList[0]
+	pSchoolID, err := strconv.Atoi(schoolList[1])
+
+	if err != nil {
+		http.Error(
+			w,
+			err.Error(),
+			http.StatusBadRequest,
+		)
+		return
+	}
+
 	newStudent := Student{
 		First_Name: r.FormValue("form_firstname"),
 		Last_Name:  r.FormValue("form_lastname"),
 		Email:      r.FormValue("form_email"),
+		School_ID:  pSchoolID,
+		Active:     pActive,
 	}
 
 	pID := 0
 
 	cacheMutex.Lock()
-	students := insertStudent(db, newStudent)
+	students := insertStudent(db, newStudent, pSchoolName)
 	cacheMutex.Unlock()
 
 	for index, myStudent := range students {
@@ -144,11 +186,30 @@ func modifyStudent(
 
 		yMessage = fmt.Sprintf("Student %d Deleted", id)
 	} else {
+		yActive := false
+		if r.FormValue("form_studentactive") == "TRUE" {
+			yActive = true
+		}
+
+		schoolList := strings.Split(r.FormValue("form_schools"), "-")
+		ySchoolID, err := strconv.Atoi(schoolList[1])
+
+		if err != nil {
+			http.Error(
+				w,
+				err.Error(),
+				http.StatusBadRequest,
+			)
+			return
+		}
+
 		zStudent := Student{
 			ID:         id,
 			First_Name: r.FormValue("form_firstname"),
 			Last_Name:  r.FormValue("form_lastname"),
 			Email:      r.FormValue("form_email"),
+			School_ID:  ySchoolID,
+			Active:     yActive,
 		}
 
 		cacheMutex.Lock()

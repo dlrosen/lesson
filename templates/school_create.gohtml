@@ -15,6 +15,12 @@
     <tr><td><label for="schoolname">School Name</label></td>
         <td><input type="text" name="form_schoolname" id="schoolname" placeholder="School Name"></td>
     </tr>
+    <tr><td><label for="schoolactive">Active</label></td>
+        <td><select size=1 name="form_schoolactive">
+            <option selected>TRUE
+            <option>FALSE
+            </select></td>
+    </tr>
     </table>
     <br>
     <input type="submit">
@@ -23,4 +29,5 @@
 
 </center>
 </body>
+{{ template "footer" }}
 </html>

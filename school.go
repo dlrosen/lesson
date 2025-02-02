@@ -39,6 +39,7 @@ func schoolModifyTemplate(
 	yMessage := ""
 	pSchoolName := ""
 	pID := 0
+	pActive := false
 
 	id, err := strconv.Atoi(r.PathValue("id"))
 	schoolCheckErr(err)
@@ -48,6 +49,7 @@ func schoolModifyTemplate(
 		if index == 0 {
 			pSchoolName = mySchool.School_Name
 			pID = mySchool.ID
+			pActive = mySchool.Active
 		}
 	}
 
@@ -55,10 +57,12 @@ func schoolModifyTemplate(
 		YourMessage string
 		ID          int
 		School_Name string
+		Active      bool
 	}{
 		YourMessage: yMessage,
 		ID:          pID,
 		School_Name: pSchoolName,
+		Active:      pActive,
 	}
 
 	tpl.ExecuteTemplate(w, "school_modify.gohtml", d)
@@ -69,8 +73,14 @@ func createSchool(
 	r *http.Request,
 	db *sql.DB,
 ) {
+	pActive := false
+	if r.FormValue("form_schoolactive") == "TRUE" {
+		pActive = true
+	}
+
 	newSchool := School{
 		School_Name: r.FormValue("form_schoolname"),
+		Active:      pActive,
 	}
 
 	pID := 0
@@ -134,9 +144,15 @@ func modifySchool(
 
 		yMessage = fmt.Sprintf("School %d Deleted", id)
 	} else {
+		pActive := false
+		if r.FormValue("form_schoolactive") == "TRUE" {
+			pActive = true
+		}
+
 		zSchool := School{
 			ID:          id,
 			School_Name: r.FormValue("form_schoolname"),
+			Active:      pActive,
 		}
 
 		cacheMutex.Lock()
