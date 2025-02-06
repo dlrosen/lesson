@@ -42,8 +42,9 @@
 --CREATE TABLE "instructor" (
 --	"instructor_id"	    INTEGER,
 --	"instructor_name"	TEXT,
+--  "active"        BOOLEAN,
 --	PRIMARY KEY("instructor_id" AUTOINCREMENT)
---)
+--);
 
 --CREATE TABLE "time_period" (
 --	"time_period_id" INTEGER,
