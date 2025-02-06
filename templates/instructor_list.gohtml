@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Lessons</title>
+</head>
+<body>
+<center>
+<h1>Instructors</h1>
+
+<form action="/search_instructor" method="POST">
+    <table><td>
+    <input type="text" name="form_instructorsearch" id="instructorsearch" placeholder="Search Instructors">
+    </td><td>
+    <input type="submit" name="form_button" value="Submit">
+    </td>
+    </table>
+    <br>
+    <INPUT TYPE="HIDDEN" MAXLENGTH=10 NAME="form_low" VALUE="{{.Low}}">
+    <INPUT TYPE="HIDDEN" NAME="form_prev_next_searchfor" VALUE="{{.SearchFor}}">
+    {{if .PrevDisplay}}
+        <input type="submit" name="form_button" value="Prev">
+    {{end}}
+    {{if .NextDisplay}}
+        <input type="submit" name="form_button" value="Next">
+    {{end}}
+</form>
+
+<br>{{.YourMessage}}<br><br>
+
+{{if .InstructorList}}
+    <TABLE BORDER=1 FRAME=BOX RULES=ALL>
+        <tr>
+            <th>ID</th>
+            <th>Instructor Name</th>
+            <th>Active</th>
+        </tr>
+
+        {{range .InstructorList}}
+            <tr>
+                <td><a href="/instructors/modify/{{.ID}}">{{.ID}}</a></td>
+                <td>{{.Instructor_Name}}</td>
+                <td>{{.Active}}</td>
+            </tr>
+        {{end}}
+
+    </table>
+{{else}}
+    <p>no rows returned</p>
+{{end}}
+
+<br><a href="/instructors/create">Create Instructor</a><BR>
+
+</center>
+</body>
+{{ template "footer" }}
+</html>

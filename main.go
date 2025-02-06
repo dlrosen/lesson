@@ -59,6 +59,14 @@ func main() {
 	mux.HandleFunc("POST /search_student", func(w http.ResponseWriter, r *http.Request) { searchStudent(w, r, db) })
 	mux.HandleFunc("POST /modify_student", func(w http.ResponseWriter, r *http.Request) { modifyStudent(w, r, db) })
 
+	//instructors
+	mux.HandleFunc("GET /instructors/create", instructorCreateTemplate)
+	mux.HandleFunc("GET /instructors/search", instructorSearchTemplate)
+	mux.HandleFunc("GET /instructors/modify/{id}", func(w http.ResponseWriter, r *http.Request) { instructorModifyTemplate(w, r, db) })
+	mux.HandleFunc("POST /create_instructor", func(w http.ResponseWriter, r *http.Request) { createInstructor(w, r, db) })
+	mux.HandleFunc("POST /search_instructor", func(w http.ResponseWriter, r *http.Request) { searchInstructor(w, r, db) })
+	mux.HandleFunc("POST /modify_instructor", func(w http.ResponseWriter, r *http.Request) { modifyInstructor(w, r, db) })
+
 	fmt.Printf("Server listening to :8080 \n")
 	http.ListenAndServe(":8080", mux)
 }

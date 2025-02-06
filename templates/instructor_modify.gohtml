@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Lessons</title>
+</head>
+<body>
+<center>
+<h1>Instructors</h1>
+ID {{.ID}}<br><br>
+<form action="/modify_instructor" method="POST">
+    <TABLE BORDER=1 FRAME=BOX RULES=ALL>
+    <tr><td><label for="instructorname">Instructor Name</label></td>
+        <td><input type="text" name="form_instructorname" id="instructorname" placeholder="Instructor Name" value="{{.Instructor_Name}}"></td>
+    </tr>
+    <tr><td><label for="instructoractive">Active</label></td>
+        <td><select size=1 name="form_instructoractive">
+            {{if .Active}}
+                <option selected>TRUE
+                <option>FALSE
+            {{else}}
+                <option>TRUE
+                <option selected>FALSE
+            {{end}}
+            </select></td>
+    </tr>
+    </table>
+    <INPUT TYPE="HIDDEN" MAXLENGTH=10 NAME="form_id" VALUE="{{.ID}}">
+    <br>
+    <input type="submit" name="form_button" value="Update"><input type="submit" name="form_button" value="Delete">
+</form>
+<br><a href="/instructors/search">Search Instructors</a><br>
+
+</center>
+</body>
+{{ template "footer" }}
+</html>
