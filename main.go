@@ -13,6 +13,8 @@ import (
 //go mod tidy
 //SET CGO_ENABLED=1
 //go build .
+//lesson.exe
+//
 //go run main.go
 
 var tpl *template.Template
@@ -67,6 +69,11 @@ func main() {
 	mux.HandleFunc("POST /search_instructor", func(w http.ResponseWriter, r *http.Request) { searchInstructor(w, r, db) })
 	mux.HandleFunc("POST /modify_instructor", func(w http.ResponseWriter, r *http.Request) { modifyInstructor(w, r, db) })
 
+	//instructor availability
+	mux.HandleFunc("GET /instructoravail/search", func(w http.ResponseWriter, r *http.Request) { instructorAvailSearchTemplate(w, r, db) })
+	mux.HandleFunc("POST /search_instructor_avail", func(w http.ResponseWriter, r *http.Request) { searchInstructorAvail(w, r, db) })
+	mux.HandleFunc("POST /update_instructor_avail", func(w http.ResponseWriter, r *http.Request) { updateInstructorAvail(w, r, db) })
+
 	fmt.Printf("Server listening to :8080 \n")
 	http.ListenAndServe(":8080", mux)
 }
@@ -75,7 +82,29 @@ func handleRoot(
 	w http.ResponseWriter,
 	r *http.Request,
 ) {
-	tpl.ExecuteTemplate(w, "index.gohtml", nil)
+	myMessage := ""
+	d := struct {
+		TheMessage string
+	}{
+		TheMessage: myMessage,
+	}
+
+	tpl.ExecuteTemplate(w, "index.gohtml", d)
+}
+
+func handleError(w http.ResponseWriter, err error, errMsg string) {
+	if err != nil {
+		d := struct {
+			TheMessage string
+		}{
+			TheMessage: errMsg,
+		}
+
+		tpl.ExecuteTemplate(w, "index.gohtml", d)
+
+		fmt.Printf("Error: %s", err.Error())
+		return
+	}
 }
 
 func checkErr(err error) {

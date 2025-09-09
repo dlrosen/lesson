@@ -54,21 +54,34 @@
 --	PRIMARY KEY("time_period_id" AUTOINCREMENT)
 --)
 
+--DROP TABLE "instructor_availability";
 --CREATE TABLE "instructor_availability" (
 --	"instructor_id"	 INTEGER,
 --    "time_period_id" INTEGER,
+--    "seq_nbr"        INTEGER,
 --    "school_id"      INTEGER,
 --    "day_of_week"    TEXT,
 --    "start_time"     INTEGER,
 --    "end_time"       INTEGER,
---	PRIMARY KEY("instructor_id", "time_period_id", "school_id", "day_of_week", "start_time")
---)
+--	PRIMARY KEY("instructor_id", "time_period_id", "seq_nbr")
+--);
+
+--INSERT INTO instructor_availability (instructor_id, time_period_id, seq_nbr, school_id, day_of_week, start_time, end_time) VALUES (1, 2, 1, 1, 'Mon', 0800, 1200);
+--INSERT INTO instructor_availability (instructor_id, time_period_id, seq_nbr, school_id, day_of_week, start_time, end_time) VALUES (1, 2, 2, 2, 'Tue', 0800, 1200);
+--INSERT INTO instructor_availability (instructor_id, time_period_id, seq_nbr, school_id, day_of_week, start_time, end_time) VALUES (1, 2, 3, 3, 'Wed', 0800, 1200);
+
+--select * from instructor_availability;
 
 --CREATE TABLE "school_availability" (
 --    "school_id"      INTEGER,
 --    "time_period_id" INTEGER,
+--    "seq_nbr"        INTEGER,
 --    "day_of_week"    TEXT,
 --    "start_time"     INTEGER,
 --    "end_time"       INTEGER,
---    PRIMARY KEY("school_id", "time_period_id", "day_of_week", "start_time")
+--    PRIMARY KEY("school_id", "time_period_id", "seq_nbr")
 --)
+
+--SELECT instructor_id, time_period_id, school_id, day_of_week, start_time, end_time FROM instructor_availability
+
+--SELECT IFNULL(MAX(seq_nbr),0) FROM instructor_availability WHERE instructor_id = 1 AND time_period_id = 4;

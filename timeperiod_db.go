@@ -105,6 +105,31 @@ func searchForTimePeriodByID(db *sql.DB, searchID int) []TimePeriod {
 	return timeperiods
 }
 
+func getTimePeriodListBox(db *sql.DB, timePeriodID int) []MyListBox {
+	rows, err := db.Query("select case when t2.time_period_id is NULL then false else true end, t1.description||'-'||t1.time_period_id from time_period t1 LEFT OUTER JOIN time_period t2 ON t1.time_period_id = t2.time_period_id AND t2.time_period_id = ? ORDER BY t1.time_period_id", timePeriodID)
+
+	timePeriodCheckErr(err)
+
+	defer rows.Close()
+
+	timePeriodListBox := make([]MyListBox, 0)
+
+	for rows.Next() {
+		ourTimePeriodListBox := MyListBox{}
+		err = rows.Scan(&ourTimePeriodListBox.Select, &ourTimePeriodListBox.Option)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		timePeriodListBox = append(timePeriodListBox, ourTimePeriodListBox)
+	}
+
+	err = rows.Err()
+	instructorCheckErr(err)
+
+	return timePeriodListBox
+}
+
 func updateTimePeriod(db *sql.DB, ourTimePeriod TimePeriod) int64 {
 
 	stmt, err := db.Prepare("UPDATE time_period set description = ?, start_date = ?, end_date = ? where time_period_id = ?")

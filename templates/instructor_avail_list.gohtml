@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Lessons</title>
+</head>
+<body>
+<center>
+<h1>Instructor Availability</h1>
+
+<br>{{.YourMessage}}<br><br>
+
+{{if .InstructorAvailList}}
+    <form action="/update_instructor_avail" method="POST">
+
+    <TABLE BORDER=1 FRAME=BOX RULES=ALL>
+        <tr>
+            <th>Delete</th>
+            <th>Seq</th>
+            <th>Day</th>
+            <th>School</th>
+            <th>Start Hour</th>
+            <th>Start Minute</th>
+            <th>End Hour</th>
+            <th>End Minute</th>
+
+        </tr>
+
+        {{range .InstructorAvailList}}
+            <tr>
+                <td align=center><input type="checkbox" NAME="form_delete-{{.Row_Nbr}}" VALUE="yes"></td>
+                <td align=center><INPUT TYPE="HIDDEN" MAXLENGTH=10 NAME="form_seq-{{.Row_Nbr}}" VALUE="{{.Seq_Nbr}}">{{.Seq_Nbr}}</td>
+                <td><select size=1 name="form_daylist-{{.Row_Nbr}}">
+                    {{range .Days_Of_Week}}
+                        {{if .Select}}
+                            <option selected>
+                        {{else}}
+                            <option>
+                        {{end}}
+                        {{.Option}}
+                    {{end}}
+                    </select></td>
+
+                <td><select size=1 name="form_schoollist-{{.Row_Nbr}}">
+                    {{range .Schools}}
+                        {{if .Select}}
+                            <option selected>
+                        {{else}}
+                            <option>
+                        {{end}}
+                        {{.Option}}
+                    {{end}}
+                    </select></td>
+
+                <td align=center><select size=1 name="form_starthourlist-{{.Row_Nbr}}">
+                    {{range .Start_Hour}}
+                        {{if .Select}}
+                            <option selected>
+                        {{else}}
+                            <option>
+                        {{end}}
+                        {{.Option}}
+                    {{end}}
+                    </select></td>
+
+                <td align=center><select size=1 name="form_startminutelist-{{.Row_Nbr}}">
+                    {{range .Start_Minute}}
+                        {{if .Select}}
+                            <option selected>
+                        {{else}}
+                            <option>
+                        {{end}}
+                        {{.Option}}
+                    {{end}}
+                    </select></td>
+
+                <td align=center><select size=1 name="form_endhourlist-{{.Row_Nbr}}">
+                    {{range .End_Hour}}
+                        {{if .Select}}
+                            <option selected>
+                        {{else}}
+                            <option>
+                        {{end}}
+                        {{.Option}}
+                    {{end}}
+                    </select></td>
+
+                <td align=center><select size=1 name="form_endminutelist-{{.Row_Nbr}}">
+                    {{range .End_Minute}}
+                        {{if .Select}}
+                            <option selected>
+                        {{else}}
+                            <option>
+                        {{end}}
+                        {{.Option}}
+                    {{end}}
+                    </select></td>
+
+            </tr>
+
+        {{end}}
+
+    </table>
+    <br>
+    <INPUT TYPE="HIDDEN" MAXLENGTH=10 NAME="form_max_rows" VALUE="{{.MaxRows}}">
+    <INPUT TYPE="HIDDEN" MAXLENGTH=10 NAME="form_instructor_id" VALUE="{{.InstructorID}}">
+    <INPUT TYPE="HIDDEN" MAXLENGTH=80 NAME="form_instructor_value" VALUE="{{.InstructorValue}}">
+    <INPUT TYPE="HIDDEN" MAXLENGTH=10 NAME="form_time_period_id" VALUE="{{.TimePeriodID}}">
+    <INPUT TYPE="HIDDEN" MAXLENGTH=80 NAME="form_time_period_value" VALUE="{{.TimePeriodValue}}">
+    <input type="submit" name="form_button" value="Update"></td>
+    </form>
+{{end}}
+
+</center>
+</body>
+{{ template "footer" }}
+</html>

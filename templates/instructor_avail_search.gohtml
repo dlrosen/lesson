@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Lessons</title>
+</head>
+<body>
+<center>
+<h1>Instructor Availability</h1>
+
+<form action="/search_instructor_avail" method="POST">
+    <table>
+    <tr><td><label for="instructorlist">Instructor</label></td>
+        <td><select size=1 name="form_instructorlist">
+            {{range .InstructorList}}
+                {{if .Select}}
+                    <option selected>
+                {{else}}
+                    <option>
+                {{end}}
+                {{.Option}}
+            {{end}}
+            </select></td>
+        <td><label for="timeperiodlist">Time Period</label></td>
+        <td><select size=1 name="form_timeperiodlist">
+            {{range .TimePeriodList}}
+                {{if .Select}}
+                    <option selected>
+                {{else}}
+                    <option>
+                {{end}}
+                {{.Option}}
+            {{end}}
+            </select></td>
+        <td><input type="submit" name="form_button" value="Submit"></td>
+    </tr>    
+    </table>
+</form>
+
+</center>
+</body>
+{{ template "footer" }}
+</html>

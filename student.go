@@ -19,7 +19,7 @@ func studentCreateTemplate(
 	zListBox := getSchoolListBox(db, 0)
 
 	d := struct {
-		SchoolList []SchoolListBox
+		SchoolList []MyListBox
 	}{
 		SchoolList: zListBox,
 	}
@@ -79,7 +79,7 @@ func studentModifyTemplate(
 		Email       string
 		School_ID   int
 		Active      bool
-		SchoolList  []SchoolListBox
+		SchoolList  []MyListBox
 	}{
 		YourMessage: yMessage,
 		ID:          pID,
