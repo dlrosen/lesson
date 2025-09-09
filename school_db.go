@@ -13,11 +13,6 @@ type School struct {
 	Active      bool
 }
 
-type SchoolListBox struct {
-	Select bool
-	Option string
-}
-
 func insertSchool(db *sql.DB, newschool School) []School {
 
 	rows, err := db.Query("INSERT INTO school (school_id, school_name, active) VALUES (?, ?, ?) RETURNING *", nil, newschool.School_Name, newschool.Active)
@@ -109,17 +104,17 @@ func searchForschoolByID(db *sql.DB, searchID int) []School {
 	return schools
 }
 
-func getSchoolListBox(db *sql.DB, schoolID int) []SchoolListBox {
+func getSchoolListBox(db *sql.DB, schoolID int) []MyListBox {
 	rows, err := db.Query("select case when s2.school_id is NULL then false else true end, s1.school_name||'-'||s1.school_id from school s1 LEFT OUTER JOIN school s2 ON s1.school_id = s2.school_id AND s2.school_id = ? ORDER BY s1.school_id", schoolID)
 
 	schoolCheckErr(err)
 
 	defer rows.Close()
 
-	schoolsListBox := make([]SchoolListBox, 0)
+	schoolsListBox := make([]MyListBox, 0)
 
 	for rows.Next() {
-		ourSchoolListBox := SchoolListBox{}
+		ourSchoolListBox := MyListBox{}
 		err = rows.Scan(&ourSchoolListBox.Select, &ourSchoolListBox.Option)
 		if err != nil {
 			log.Fatal(err)

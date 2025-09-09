@@ -13,11 +13,6 @@ type Instructor struct {
 	Active          bool
 }
 
-type InstructorListBox struct {
-	Select bool
-	Option string
-}
-
 func insertInstructor(db *sql.DB, newinstructor Instructor) []Instructor {
 
 	rows, err := db.Query("INSERT INTO instructor (instructor_id, instructor_name, active) VALUES (?, ?, ?) RETURNING *", nil, newinstructor.Instructor_Name, newinstructor.Active)
@@ -109,17 +104,17 @@ func searchForinstructorByID(db *sql.DB, searchID int) []Instructor {
 	return instructors
 }
 
-func getInstructorListBox(db *sql.DB, instructorID int) []InstructorListBox {
+func getInstructorListBox(db *sql.DB, instructorID int) []MyListBox {
 	rows, err := db.Query("select case when i2.instructor_id is NULL then false else true end, i1.instructor_name||'-'||i1.instructor_id from instructor i1 LEFT OUTER JOIN instructor i2 ON i1.instructor_id = i2.instructor_id AND i2.instructor_id = ? ORDER BY i1.instructor_id", instructorID)
 
 	instructorCheckErr(err)
 
 	defer rows.Close()
 
-	instructorsListBox := make([]InstructorListBox, 0)
+	instructorsListBox := make([]MyListBox, 0)
 
 	for rows.Next() {
-		ourInstructorListBox := InstructorListBox{}
+		ourInstructorListBox := MyListBox{}
 		err = rows.Scan(&ourInstructorListBox.Select, &ourInstructorListBox.Option)
 		if err != nil {
 			log.Fatal(err)
